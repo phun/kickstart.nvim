@@ -498,6 +498,17 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'olimorris/persisted.nvim',
+    opts = {
+      use_git_branch = true,
+      autoload = true,
+      on_autoload_no_session = function()
+        vim.notify 'No existing session to load.'
+      end,
+    },
+  },
+
   -- LSP Plugins
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
