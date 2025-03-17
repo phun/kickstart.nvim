@@ -265,6 +265,34 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
     },
+    config = function()
+      require('gitsigns').setup {
+        on_attach = function(bufnr)
+          local gs = package.loaded.gitsigns
+
+          -- Keybindings for navigating hunks
+          vim.keymap.set('n', ']c', function()
+            if vim.wo.diff then
+              return ']c'
+            end
+            vim.schedule(function()
+              gs.next_hunk()
+            end)
+            return '<Ignore>'
+          end, { buffer = bufnr, expr = true, desc = 'Next hunk' })
+
+          vim.keymap.set('n', '[c', function()
+            if vim.wo.diff then
+              return '[c'
+            end
+            vim.schedule(function()
+              gs.prev_hunk()
+            end)
+            return '<Ignore>'
+          end, { buffer = bufnr, expr = true, desc = 'Previous hunk' })
+        end,
+      }
+    end,
   },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
@@ -432,6 +460,20 @@ require('lazy').setup({
         --   },
         -- },
         -- pickers = {}
+        defaults = {
+          layout_strategy = 'vertical',
+          layout_config = {
+            horizontal = {
+              prompt_position = 'top',
+              width = { padding = 0 },
+              height = { padding = 0 },
+              preview_width = 0.5,
+            },
+          },
+          path_display = { shorten = 4 },
+          -- sorting_strategy = 'ascending',
+        },
+
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -605,7 +647,9 @@ require('lazy').setup({
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+          map('<leader>ws', function()
+            require('telescope.builtin').lsp_dynamic_workspace_symbols { fname_width = 0.6, symbol_width = 0.3, symbol_type_width = 0.1 }
+          end, '[W]orkspace [S]ymbols')
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
@@ -721,7 +765,41 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        intelephense = {},
+        intelephense = {
+          settings = {
+            intelephense = {
+              files = {
+                maxSize = 1000000,
+                associations = { '*.php', '*.phtml' },
+                exclude = {
+                  '**/.git/**',
+                  '**/.github/**',
+                  '**/node_modules/**',
+                  '**/bower_components/**',
+                  '**/tmp/**',
+                  '**/.vscode-server/extensions/**',
+                  '**/.phan/**',
+                  '**/cron.d/**',
+                  '**/generated/**',
+                  '**/Generated/**',
+                  '**/Etsyweb/bin/**',
+                  '**/Etsyweb/cloud_build/**',
+                  '**/vendor/*/{!(phpunit)/**}',
+                  '**/Etsyweb/cron.d/**',
+                  '**/Etsyweb/eslint-plugin-etsy-rules/**',
+                  '**/Etsyweb/htdocs*/**',
+                  '**/Etsyweb/jest-config/**',
+                  '**/Etsyweb/.phan/**',
+                  '**/Etsyweb/stryker-config/**',
+                  '**/Etsyweb/templates/**',
+                  '**/Etsyweb/tests/**',
+                  '**/Etsyweb/translations/**',
+                  '**/EtsyWeb/phplib/EtsyConfig/**',
+                },
+              },
+            },
+          },
+        },
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
