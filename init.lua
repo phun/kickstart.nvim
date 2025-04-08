@@ -365,6 +365,33 @@ require('lazy').setup({
       },
     },
   },
+  -- Lines for intentation/matching curly brackets
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    main = 'ibl',
+    ---@module "ibl"
+    ---@type ibl.config
+    opts = {},
+  },
+  -- bookmarking files
+  {
+    'LintaoAmons/bookmarks.nvim',
+    -- pin the plugin at specific version for stability
+    -- backup your bookmark sqlite db when there are breaking changes
+    -- tag = "v2.3.0",
+    dependencies = {
+      { 'kkharji/sqlite.lua' },
+      { 'nvim-telescope/telescope.nvim' },
+      { 'stevearc/dressing.nvim' }, -- optional: better UI
+    },
+    config = function()
+      local opts = {} -- check the "./lua/bookmarks/default-config.lua" file for all the options
+      require('bookmarks').setup(opts) -- you must call setup to init sqlite db
+
+      vim.keymap.set('n', '<leader>bl', ':BookmarksLists<CR>', { desc = '[B]ookmarks [L]ist' })
+      vim.keymap.set('n', '<leader>bm', ':BookmarksMark<CR>', { desc = '[B]ookmarks [M]ark' })
+    end,
+  },
 
   -- NOTE: Plugins can specify dependencies.
   --
@@ -552,6 +579,14 @@ require('lazy').setup({
   },
 
   -- LSP Plugins
+  {
+    'github/copilot.vim',
+    event = 'InsertEnter', -- This plugin loads lazily when entering insert mode
+    config = function()
+      -- Add any custom configuration for copilot.vim here
+      vim.g.copilot_no_tab_map = true -- Example: disable default tab mapping
+    end,
+  },
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
@@ -1585,9 +1620,9 @@ require('lazy').setup({
 -- Enable transparency
 vim.cmd [[
   highlight Normal guibg=none
+  highlight NormalNC guibg=none
   highlight NonText guibg=none
   highlight SignColumn guibg=none
-  highlight CursorLine guibg=#000000
   highlight LineNr guifg=#b0b0b0
 ]]
 
@@ -1695,3 +1730,5 @@ vim.g.clipboard = {
     ['*'] = function() end,
   },
 }
+
+vim.api.nvim_set_keymap('i', 'jk', '<Esc>', { noremap = true, silent = true })
