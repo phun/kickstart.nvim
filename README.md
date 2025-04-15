@@ -26,6 +26,14 @@ sudo apt-get update
 sudo apt-get install neovim
 ```
 
+```
+sudo apt-get install ripgrep
+```
+
+```
+sudo apt-get install fd-find
+```
+
 ### Install External Dependencies
 
 External Requirements:
