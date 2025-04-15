@@ -19,6 +19,13 @@ Kickstart.nvim targets *only* the latest
 ['nightly'](https://github.com/neovim/neovim/releases/tag/nightly) of Neovim.
 If you are experiencing issues, please make sure you have the latest versions.
 
+#### Ubuntu VMs
+```
+sudo add-apt-repository ppa:neovim-ppa/unstable
+sudo apt-get update
+sudo apt-get install neovim
+```
+
 ### Install External Dependencies
 
 External Requirements:
