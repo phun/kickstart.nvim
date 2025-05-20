@@ -23,11 +23,15 @@ If you are experiencing issues, please make sure you have the latest versions.
 ```
 brew install ripgrep
 ```
-
 ```
 brew install fd
 ```
-
+```
+brew install node
+```
+```
+brew install wget
+```
 
 #### Ubuntu VMs
 ```
