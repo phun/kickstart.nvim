@@ -19,6 +19,16 @@ Kickstart.nvim targets *only* the latest
 ['nightly'](https://github.com/neovim/neovim/releases/tag/nightly) of Neovim.
 If you are experiencing issues, please make sure you have the latest versions.
 
+#### MacOS
+```
+brew install ripgrep
+```
+
+```
+brew install fd
+```
+
+
 #### Ubuntu VMs
 ```
 sudo add-apt-repository ppa:neovim-ppa/unstable
