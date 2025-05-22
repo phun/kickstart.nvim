@@ -21,16 +21,7 @@ If you are experiencing issues, please make sure you have the latest versions.
 
 #### MacOS
 ```
-brew install ripgrep
-```
-```
-brew install fd
-```
-```
-brew install node
-```
-```
-brew install wget
+brew install ripgrep fd node wget luarocks
 ```
 
 #### Ubuntu VMs
